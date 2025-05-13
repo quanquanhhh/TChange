@@ -144,10 +144,5 @@ namespace GameScripts.Core
                 throw;
             }
         }
-
-        // private void Update()
-        // {
-        //     
-        // }
     }
 }
