@@ -108,11 +108,11 @@ public partial class GameApp : Singleton<GameApp>
     }
 
 
-    private static void StartGameLogic()
-    {
-        GameEvent.Get<ILoginUI>().ShowLoginUI();
-        GameModule.UI.ShowUIAsync<BattleMainUI>();
-    }
+    // private static void StartGameLogic()
+    // {
+    //     GameEvent.Get<ILoginUI>().ShowLoginUI();
+    //     GameModule.UI.ShowUIAsync<BattleMainUI>();
+    // }
     
     private static void Release()
     {

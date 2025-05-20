@@ -9,7 +9,7 @@ namespace GameLogic.GameFSM
             base.OnEnter(inEnterParams);
             
             GameEvent.Get<ILoginUI>().ShowLoginUI();
-            GameModule.UI.ShowUIAsync<BattleMainUI>();
+            GameModule.UI.ShowUIAsync<Lobby>();
         }
     }
 }

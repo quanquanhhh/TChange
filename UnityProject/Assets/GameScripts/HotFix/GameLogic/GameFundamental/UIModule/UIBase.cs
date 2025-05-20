@@ -118,8 +118,8 @@ namespace GameLogic
         /// </summary>
         protected virtual void ScriptGenerator()
         {
+            ComponentBinder.BindingComponent(this, rectTransform);
         }
-
         /// <summary>
         /// 绑定UI成员元素。
         /// </summary>
