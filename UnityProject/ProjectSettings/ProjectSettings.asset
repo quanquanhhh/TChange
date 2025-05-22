@@ -795,6 +795,7 @@ PlayerSettings:
     PS4: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
     PS5: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
     QNX: TextMeshPro
+    Server: UNITY_UOS_SECURITY
     Stadia: UNITY_POST_PROCESSING_STACK_V2;TextMeshPro
     Standalone: ENABLE_LOG;TextMeshPro;UNITY_UOS_SECURITY
     VisionOS: TextMeshPro

@@ -12,6 +12,7 @@ namespace GameLogic
         Top = 2,
         Tips = 3,
         System = 4,
+        PlayerInfo = 5,
     }
 
     /// <summary>

@@ -8,4 +8,5 @@ namespace GameLogic
             pause = inPause;
         }
     }
+    public struct UpdateAccountInfo : IEvent { }
 }

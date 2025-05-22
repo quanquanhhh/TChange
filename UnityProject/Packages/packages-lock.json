@@ -9,6 +9,15 @@
       },
       "hash": "7fd04e1250bf8b4ac02d48d6b8ae54c3c501be51"
     },
+    "cn.unity.uos.func.stateless": {
+      "version": "https://e.coding.net/unitychina/uos/FuncStatelessSDK.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "3ba1e00c053031752e6dc913b4348ceaca205eaa"
+    },
     "cn.unity.uos.launcher": {
       "version": "https://e.coding.net/unitychina/uos/UOSLauncher.git",
       "depth": 0,
@@ -16,7 +25,25 @@
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.1"
       },
-      "hash": "e4e72a30ce0c6f9d14a09ae8272cdace15d260f1"
+      "hash": "49550e5d30a180882990cefade9c8cba3fad1a2d"
+    },
+    "cn.unity.uos.passport.core": {
+      "version": "https://e.coding.net/unitychina/uos/PassportCore.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "c8527b932f983d848508cbc2574acc35abf7c0af"
+    },
+    "cn.unity.uos.passport.login": {
+      "version": "https://e.coding.net/unitychina/uos/PassportLoginSDK.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "697256eb2ead83740c251a9cb3bf0e4d8d3b3cc6"
     },
     "com.code-philosophy.hybridclr": {
       "version": "https://gitee.com/focus-creative-games/hybridclr_unity.git",

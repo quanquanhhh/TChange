@@ -4,6 +4,8 @@ using System.Reflection;
 using GameLogic;
 using GameLogic.GameFSM;
 using TEngine;
+using Unity.UOS.CloudSave;
+
 #pragma warning disable CS0436
 
 
@@ -35,7 +37,7 @@ public partial class GameApp : Singleton<GameApp>
         // StartGameLogic();
     }
 
-    private void GameLogic()
+    private async void GameLogic()
     {
         foreach (var logicSys in _logics)
         {
@@ -46,8 +48,9 @@ public partial class GameApp : Singleton<GameApp>
         {
             module.Value.OnStartGameLogic();
         }
-        
-        Get<GameFsm>().StartState<GameStateLoading>();
+
+        await CloudSaveSDK.InitializeAsync();
+        Get<GameFsm>().StartState();
     }
 
     private void Start()
@@ -64,7 +67,7 @@ public partial class GameApp : Singleton<GameApp>
         RegisterLogicSys();
     }
     
-    private void RegisterModule()
+    private async void RegisterModule()
     {
         // InstallSDKExtra();
             

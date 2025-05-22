@@ -12,8 +12,11 @@ namespace GameLogic.GameFSM
     
         public Type[] fsmStateTypes =
         {
+            typeof(GameStateLogin),
             typeof(GameStateLoading),
             typeof(GameStateLobby),
+            typeof(GameStatePlaying),
+            typeof(GameStateDeco),
           
         };
         private List<GameFsmStateBase> _gameStates;
@@ -39,7 +42,7 @@ namespace GameLogic.GameFSM
         /// 开始流程。
         /// </summary>
         /// <typeparam name="T">要开始的流程类型。</typeparam>
-        public void StartState<T>() where T : GameFsmStateBase
+        public void StartState()
         {
             currentFsmState = _gameStates[0];
             _gameStates[0].OnEnter(null);
@@ -58,11 +61,10 @@ namespace GameLogic.GameFSM
                 }
             }
 
-            if (nextState == null)
+            if (nextState == null || nextState == currentFsmState)
             {
                 return;
             }
-
             if (currentFsmState != null)
             {
                 lastFsmState = currentFsmState;

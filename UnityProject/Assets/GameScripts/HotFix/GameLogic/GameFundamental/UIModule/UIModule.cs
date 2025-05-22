@@ -48,7 +48,9 @@ namespace GameLogic
         /// </summary>
         protected override void OnInit()
         {
+            
             var uiRoot = GameObject.Find("UIRoot");
+            // var uiRoot = GameObject.Find("UIRoot");
             if (uiRoot != null)
             {
                 _instanceRoot = uiRoot.GetComponentInChildren<Canvas>()?.transform;
@@ -62,7 +64,7 @@ namespace GameLogic
             
             Resource = new UIResourceLoader();
 
-            UnityEngine.Object.DontDestroyOnLoad(_instanceRoot.parent != null ? _instanceRoot.parent : _instanceRoot);
+            // UnityEngine.Object.DontDestroyOnLoad(_instanceRoot.parent != null ? _instanceRoot.parent : _instanceRoot);
 
             _instanceRoot.gameObject.layer = LayerMask.NameToLayer("UI");
 

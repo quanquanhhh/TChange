@@ -277,7 +277,14 @@ namespace GameLogic
                 BindMemberProperty();
                 RegisterEvent();
                 OnCreate();
+
+                AddBtnListener();
             }
+        }
+
+        public virtual void AddBtnListener()
+        {
+            
         }
 
         internal void InternalRefresh()

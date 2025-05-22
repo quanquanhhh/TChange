@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "cn.unity.uos.cloudsave": "https://e.coding.net/unitychina/uos/CloudSaveSDK.git",
+    "cn.unity.uos.func.stateless": "https://e.coding.net/unitychina/uos/FuncStatelessSDK.git",
     "cn.unity.uos.launcher": "https://e.coding.net/unitychina/uos/UOSLauncher.git",
+    "cn.unity.uos.passport.core": "https://e.coding.net/unitychina/uos/PassportCore.git",
+    "cn.unity.uos.passport.login": "https://e.coding.net/unitychina/uos/PassportLoginSDK.git",
     "com.code-philosophy.hybridclr": "https://gitee.com/focus-creative-games/hybridclr_unity.git",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.ide.rider": "3.0.34",
