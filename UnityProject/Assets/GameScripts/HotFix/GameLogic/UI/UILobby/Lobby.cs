@@ -20,6 +20,10 @@ namespace GameLogic
         private Button DebugLevelWin;
         
 
+        [UIBinder("DebugActivityTest")]
+        private Button DebugActivityTest;
+        
+
         protected override void OnCreate()
         {
             base.OnCreate();
@@ -33,9 +37,15 @@ namespace GameLogic
             DecoBtn.onClick.AddListener(EnterDeco);
             GameBtn.onClick.AddListener(EnterGame);
             DebugLevelWin.onClick.AddListener(OnDebugLevelWin);
+            DebugActivityTest.onClick.AddListener(OnDebugActivityTest);
             
         }
-        
+
+        private async void OnDebugActivityTest()
+        {
+            await NetworkManager.Instance.TestActivityJson();
+        }
+
         private async void OnDebugLevelWin()
         {
             await NetworkManager.Instance.LevelUp();

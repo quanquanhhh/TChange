@@ -12,8 +12,9 @@ namespace GameScripts.Net
     {
         private UnityEvent<Account> onLogin = new UnityEvent<Account>();
         private UnityEvent<QueryResult> onLevelWin = new UnityEvent<QueryResult>();
+        public UnityEvent<ActivityResult> onGetActivity = new UnityEvent<ActivityResult>();        
         public UnityEvent<string, int> onError = new UnityEvent<string, int>();
-
+        
         public static NetworkManager Instance { get; private set; }
         private string _saveId;
         private User _user;
@@ -33,6 +34,8 @@ namespace GameScripts.Net
             onLevelWin.AddListener(x=>UserInfo.SetCurLevel(x.Level));
             
             onLogin.AddListener(x=>UserInfo.SetUserInfo(x));
+            
+            onGetActivity.AddListener(x=>ActivityInfo.SetActivityStr(x));
         }
 
         public async Task Login(string username)
@@ -172,26 +175,6 @@ namespace GameScripts.Net
             try
             {
                 var LevelResult = await _as.LevelUp(_saveId, count);
-                // update cache
-                // if (!drawResult.Ok)
-                // {
-                //     throw new Exception(drawResult.Message);
-                // }
-                // _user = drawResult.User;
-                // var listResult = new List<Progress.Item>(drawResult.Items.Count);
-                // listResult.AddRange(drawResult.Items.Select(it => new Progress.Item
-                // {
-                //     Type = it.Type switch
-                //     {
-                //         0 => ItemType.Hero,
-                //         1 => ItemType.Prop,
-                //         _ => ItemType.Other
-                //     },
-                //     Name = it.Name,
-                //     Count = it.Count,
-                //     Level = it.Level
-                // }));
-
                 onLevelWin.Invoke(LevelResult);
             }
             catch (Exception e)
@@ -200,6 +183,18 @@ namespace GameScripts.Net
             }
         }
 
+        public async Task TestActivityJson()
+        {
+            try
+            {
+                var result = await _as.GetActivities();
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+                throw;
+            }
+        }
         private static int CalcLuckLevel(int points, int counts)
         {
             // 5 levels

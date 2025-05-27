@@ -1,0 +1,18 @@
+{
+  "activityInfos": [
+    {
+      "id": 1,
+      "activityName": "Activity1",
+      "startTime": "123124213",
+      "endTime": "24124123",
+      "infoJson": ""
+    },
+    {
+      "id": 1,
+      "activityName": "Activity1",
+      "startTime": "123124213",
+      "endTime": "24124123",
+      "infoJson": ""
+    }
+  ]
+}

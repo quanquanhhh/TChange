@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using GameScripts;
+using Cysharp.Threading.Tasks;
 using GameScripts.Net;
 using GameScripts.UI.Login;
 using Passport;
@@ -13,6 +13,7 @@ namespace GameLogic.GameFSM
 {
     public class GameStateLogin : GameFsmStateBase
     {
+        private UniTaskCompletionSource _loginTask;
         // sdk 配置（Config 是 SDK 初始化时的配置）
         private readonly PassportUIConfig _config = new()
         {
@@ -27,17 +28,18 @@ namespace GameLogic.GameFSM
             base.OnEnter(inEnterParams);
             try
             {
+                _loginTask = new UniTaskCompletionSource();
                 await PassportUI.Init(_config, _callback);
-                GameModule.UI.ShowUI<UILogin>();
-                // await NetworkManager.Login(username, password);
-              
+                await _loginTask.Task;
+                var userId = PassportSDK.CurrentPersona.UserID;
+                // GameModule.UI.ShowUI<UILogin>();
+                await NetworkManager.Instance.Login(userId);
+                GameApp.Get<GameFsm>().ToState<GameStateLoading>();
             }
             catch (Exception e)
             {
                 Debug.LogException(e);
                 Debug.Log(e.Message);
-                // ShowLoading(false);
-                // MessageUI.Show(e.Message);
             }
         }
         
@@ -56,11 +58,13 @@ namespace GameLogic.GameFSM
                 case PassportEvent.Completed:
                     Debug.Log("完成所有流程");
                     await SelectPersona();
+                    _loginTask.TrySetResult();
                     break;
                 case PassportEvent.LoggedOut:
                     Debug.Log("用户登出");
                     break;
             }
+
         }
         
 

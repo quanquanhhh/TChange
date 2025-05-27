@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using GameLogic;
 using GameLogic.GameFSM;
 using GameScripts.Net;
@@ -18,8 +19,10 @@ namespace GameScripts.UI.Login
         {
             base.OnCreate();
             Debug.Log(" loginbtn == null ?" + (LoginBtn == null));
-        }
+ 
 
+        }
+ 
         public override void AddBtnListener()
         {
             base.AddBtnListener();
@@ -28,8 +31,8 @@ namespace GameScripts.UI.Login
 
         private async void ToLoading()
         {
+            
             var userId = PassportSDK.CurrentPersona.UserID;
-            Debug.Log($"currentUserId, use as save name: {userId}");
             await NetworkManager.Instance.Login(userId);
             Debug.Log($"ToLoading: {userId}");
             GameApp.Get<GameFsm>().ToState<GameStateLoading>();

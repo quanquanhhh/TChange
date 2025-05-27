@@ -16,6 +16,11 @@ namespace GameScripts
             var json = Encoding.UTF8.GetString(data);
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public static T DeserializeFromJsonStr<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
         
     }
 }
