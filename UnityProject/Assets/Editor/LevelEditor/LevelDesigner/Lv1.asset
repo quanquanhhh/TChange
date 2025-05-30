@@ -15,7 +15,12 @@ MonoBehaviour:
   peaks:
   - peakTemplate: {fileID: 11400000, guid: 6d0ec79d8dd9443d287edce9d07f6a1c, type: 2}
     position: {x: 3, y: 4}
-  - peakTemplate: {fileID: 11400000, guid: e2a868e0cb7ba4b039daa926d26affc4, type: 2}
-    position: {x: 3, y: 6}
+  - peakTemplate: {fileID: 0}
+    position: {x: 3, y: 5}
   - peakTemplate: {fileID: 11400000, guid: 6d0ec79d8dd9443d287edce9d07f6a1c, type: 2}
-    position: {x: 3, y: 2}
+    position: {x: 3, y: 3}
+  drawPileArea:
+    x: 3
+    y: 6
+    width: 3
+    height: 1

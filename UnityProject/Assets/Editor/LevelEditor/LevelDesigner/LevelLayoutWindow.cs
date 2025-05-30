@@ -20,129 +20,121 @@ public class LevelLayoutWindow : EditorWindow
     }
 
     private void OnGUI()
-{
-    EditorGUILayout.Space();
-    currentLevel = (LevelLayoutAsset)EditorGUILayout.ObjectField("当前关卡布局", currentLevel, typeof(LevelLayoutAsset), false);
-    if (currentLevel == null)
     {
-        EditorGUILayout.HelpBox("请先选择一个 LevelLayoutAsset 资源。", MessageType.Info);
-        return;
-    }
-
-    EditorGUILayout.Space();
-
-    scroll = EditorGUILayout.BeginScrollView(scroll);
-
-    Rect previewRect = GUILayoutUtility.GetRect(800, 600);
-
-    GUI.Box(previewRect, "布局预览区");
-
-    if (Event.current.type == EventType.MouseUp)
-    {
-        draggingPeak = null;
-    }
-
-    if (currentLevel.peaks != null)
-    {
-        foreach (var peak in currentLevel.peaks)
+        EditorGUILayout.Space();
+        currentLevel = (LevelLayoutAsset)EditorGUILayout.ObjectField("当前关卡布局", currentLevel, typeof(LevelLayoutAsset), false);
+        if (currentLevel == null)
         {
-            if (peak.peakTemplate == null) continue;
+            EditorGUILayout.HelpBox("请先选择一个 LevelLayoutAsset 资源。", MessageType.Info);
+            return;
+        }
 
-            // 计算绘制区域，峰大小按模板宽高绘制
-            Vector2 pos = new Vector2(previewRect.x + peak.position.x * cellSize, previewRect.y + peak.position.y * cellSize);
+        EditorGUILayout.Space();
 
-            
-            float min = 0, max = 0;
-            foreach (var slot in peak.peakTemplate.slots)
+        scroll = EditorGUILayout.BeginScrollView(scroll);
+
+        Rect previewRect = GUILayoutUtility.GetRect(800, 600);
+
+        GUI.Box(previewRect, "布局预览区");
+
+        if (Event.current.type == EventType.MouseUp)
+        {
+            draggingPeak = null;
+        }
+
+        if (currentLevel.peaks != null)
+        {
+            var totalGridHeight = 12; // Choose an appropriate height that fits your level design
+            foreach (var peak in currentLevel.peaks)
             {
-                if (slot.offsetPos != Vector2.zero)
-                {
-                    float y = slot.offsetPos.y;
-                    min = Math.Min(min, y);
-                    max = Math.Max(max, y);
-                }
-            }
-            var cellzize_H = 1 + (max - min);
-            Vector2 size = new Vector2(peak.peakTemplate.width * cellSize, cellzize_H * cellSize);
-            Rect peakRect = new Rect(pos, size);
+                if (peak.peakTemplate == null) continue;
 
-            if (draggingPeak == peak)
-            {
-                // 计算拖动位置
-                Vector2 newPos = Event.current.mousePosition + dragOffset;
-                Vector2 localPos = newPos - new Vector2(previewRect.x, previewRect.y);
-
-                // 计算新格子位置（四舍五入）
-                Vector2Int newGridPos = new Vector2Int(
-                    Mathf.RoundToInt(localPos.x / cellSize),
-                    Mathf.RoundToInt(localPos.y / cellSize)
+                // Calculate draw position
+                Vector2 pos = new Vector2(
+                    previewRect.x + peak.position.x * cellSize,
+                    previewRect.y + (totalGridHeight - peak.position.y - peak.peakTemplate.GetShowHeight()) * cellSize
                 );
 
-                // 限制非负
-                newGridPos.x = Mathf.Max(0, newGridPos.x);
-                newGridPos.y = Mathf.Max(0, newGridPos.y);
+                float showHeight = peak.peakTemplate.GetShowHeight();
+                Vector2 size = new Vector2(peak.peakTemplate.width * cellSize, showHeight * cellSize);
+                Rect peakRect = new Rect(pos, size);
 
-                // 判断是否重叠（排除自己）
-                bool overlap = false;
-                foreach (var other in currentLevel.peaks)
+                if (draggingPeak == peak)
                 {
-                    if (other == draggingPeak) continue;
+                    // Calculate drag position
+                    Vector2 newPos = Event.current.mousePosition + dragOffset;
+                    Vector2 localPos = newPos - new Vector2(previewRect.x, previewRect.y);
 
-                    Rect otherRect = new Rect(
-                        previewRect.x + other.position.x * cellSize,
-                        previewRect.y + other.position.y * cellSize,
-                        other.peakTemplate.width * cellSize,
-                        other.peakTemplate.height * cellSize
+                    // Calculate new grid position (rounding to nearest cell)
+                    Vector2Int newGridPos = new Vector2Int(
+                        Mathf.RoundToInt(localPos.x / cellSize),
+                        totalGridHeight - Mathf.RoundToInt((localPos.y + showHeight * cellSize) / cellSize)
                     );
 
-                    Rect newRect = new Rect(
-                        previewRect.x + newGridPos.x * cellSize,
-                        previewRect.y + newGridPos.y * cellSize,
-                        size.x, size.y
-                    );
+                    // Restrict to non-negative
+                    newGridPos.x = Mathf.Max(0, newGridPos.x);
+                    newGridPos.y = Mathf.Max(0, newGridPos.y);
 
-                    if (newRect.Overlaps(otherRect))
+                    // Check for overlap (excluding itself)
+                    bool overlap = false;
+                    foreach (var other in currentLevel.peaks)
                     {
-                        overlap = true;
-                        break;
+                        if (other == draggingPeak) continue;
+                        var showheight = other.peakTemplate.GetShowHeight();
+                        Rect otherRect = new Rect(
+                            previewRect.x + other.position.x * cellSize,
+                            previewRect.y + (totalGridHeight - other.position.y - showheight) * cellSize,
+                            other.peakTemplate.width * cellSize,
+                            showheight * cellSize
+                        );
+
+                        Rect newRect = new Rect(
+                            previewRect.x + newGridPos.x * cellSize,
+                            previewRect.y + (totalGridHeight - newGridPos.y - showHeight) * cellSize,
+                            size.x, size.y
+                        );
+
+                        if (newRect.Overlaps(otherRect))
+                        {
+                            overlap = true;
+                            break;
+                        }
                     }
+
+                    // Allow movement if no overlap
+                    if (!overlap)
+                    {
+                        peak.position = newGridPos;
+                        peakRect.position = newPos;
+                    }
+
+                    Repaint();
                 }
 
-                // 如果不重叠，允许移动
-                if (!overlap)
+                EditorGUI.DrawRect(peakRect, new Color(0, 1, 1, 0.5f)); // Semi-transparent cyan
+                // Draw white outline
+                Color outlineColor = Color.white;
+                float outlineThickness = 2f;
+                
+                Handles.DrawSolidRectangleWithOutline(peakRect, Color.clear, outlineColor);
+                
+                EditorGUI.LabelField(peakRect, peak.peakTemplate.name, EditorStyles.boldLabel);
+
+                // Begin drag on mouse down
+                if (Event.current.type == EventType.MouseDown && peakRect.Contains(Event.current.mousePosition))
                 {
-                    peak.position = newGridPos;
-                    peakRect.position = newPos;
+                    draggingPeak = peak;
+                    dragOffset = peakRect.position - Event.current.mousePosition;
+                    Event.current.Use();
                 }
-
-                Repaint();
-            }
-
-            EditorGUI.DrawRect(peakRect, new Color(0, 1, 1, 0.5f)); // 半透明青色
-            // 再画白色描边
-            Color outlineColor = Color.white;
-            float outlineThickness = 2f;
-            
-            Handles.DrawSolidRectangleWithOutline(peakRect, Color.clear, outlineColor);
-            
-            EditorGUI.LabelField(peakRect, peak.peakTemplate.name, EditorStyles.boldLabel);
-
-            // 鼠标按下开始拖动
-            if (Event.current.type == EventType.MouseDown && peakRect.Contains(Event.current.mousePosition))
-            {
-                draggingPeak = peak;
-                dragOffset = peakRect.position - Event.current.mousePosition;
-                Event.current.Use();
             }
         }
+
+        EditorGUILayout.EndScrollView();
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(currentLevel);
+        }
     }
-
-    EditorGUILayout.EndScrollView();
-
-    if (GUI.changed)
-    {
-        EditorUtility.SetDirty(currentLevel);
-    }
-}
-
 }

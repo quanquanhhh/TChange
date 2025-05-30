@@ -12,6 +12,8 @@ public class LevelLayoutAsset : ScriptableObject
     }
 
     public List<PeakInstance> peaks = new List<PeakInstance>();
+    public RectInt drawPileArea; // 比如 new RectInt(3, 0, 5, 2)
+
 
     // 可以加一些辅助方法，比如添加/移除峰
     public void AddPeak(PeakTemplate peak, Vector2Int pos)

@@ -12,6 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3bb77f0d680043e99581fd580fdb4ff, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  width: 10
+  width: 5
   height: 5
-  slots: []
+  slots:
+  - x: 1
+    y: 0
+    layer: 4
+    offsetPos: {x: 0, y: 0}
+  - x: 3
+    y: 0
+    layer: 4
+    offsetPos: {x: 0, y: 0}
+  - x: 0
+    y: 1
+    layer: 3
+    offsetPos: {x: 0, y: 0}
+  - x: 2
+    y: 1
+    layer: 3
+    offsetPos: {x: 0, y: 0}
+  - x: 4
+    y: 1
+    layer: 3
+    offsetPos: {x: 0, y: 0}
+  - x: 3
+    y: 2
+    layer: 2
+    offsetPos: {x: 0, y: 0}
+  - x: 1
+    y: 2
+    layer: 2
+    offsetPos: {x: 0, y: 0}
+  - x: 2
+    y: 3
+    layer: 1
+    offsetPos: {x: 0, y: 0}
+  - x: 1
+    y: 4
+    layer: 0
+    offsetPos: {x: 0, y: 0}
+  - x: 3
+    y: 4
+    layer: 0
+    offsetPos: {x: 0, y: 0}

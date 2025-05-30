@@ -3,6 +3,7 @@ using UnityEditor;
 
 public class PeakDesignerWindow : EditorWindow {
     PeakTemplate currentTemplate;
+    PeakTemplate lastTemplate = null; // 用于检测是否更换模板
     Vector2 scroll;
     int gridSize = 40;
 
@@ -21,6 +22,20 @@ public class PeakDesignerWindow : EditorWindow {
 
         if (currentTemplate == null) return;
 
+        // 检测是否切换模板并自动初始化 layout 和 slots
+        if (currentTemplate != lastTemplate) {
+            lastTemplate = currentTemplate;
+            selectedX = -1;
+            selectedY = -1;
+            if (currentTemplate.layout == null || 
+                currentTemplate.layout.GetLength(0) != currentTemplate.width || 
+                currentTemplate.layout.GetLength(1) != currentTemplate.height) {
+                // currentTemplate.Resize(currentTemplate.width, currentTemplate.height);
+                EditorUtility.SetDirty(currentTemplate);
+            }
+        }
+
+        currentTemplate.SyncLayoutFormSlot();
         EditorGUILayout.Space();
 
         currentTemplate.width = EditorGUILayout.IntField("宽度", currentTemplate.width);
@@ -76,7 +91,6 @@ public class PeakDesignerWindow : EditorWindow {
                     }
                 }
 
-                // 按钮绘制（隐藏文本）
                 GUI.Button(buttonRect, "");
 
                 GUI.backgroundColor = originalColor;
